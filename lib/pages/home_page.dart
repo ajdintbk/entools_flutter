@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   List<Part> _parts = [];
   List<Version> _versions = [];
   int partSelected;
-  SetLoggedUser() async {
+  setLoggedUser() async {
     var result = await get("https://6d8cc013dbe2.ngrok.io/api/parts");
     var l = json.decode(result.body);
     _parts = List<Part>.from(l.map((model) => Part.fromJson(model)));
@@ -33,8 +33,9 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  // ignore: must_call_super
   initState() {
-    SetLoggedUser();
+    setLoggedUser();
   }
 
   Widget build(BuildContext context) {
@@ -51,11 +52,11 @@ class _HomePageState extends State<HomePage> {
         child: new ListView(
           children: <Widget>[
             new UserAccountsDrawerHeader(
-              accountName: new Text("TakeoffAndroid"),
-              accountEmail: new Text("takeoffandroid@gmail.com"),
+              accountName: new Text("Dobrodošao, Admin"),
+              accountEmail: new Text("admin@gmail.com"),
               currentAccountPicture: CircleAvatar(
                   backgroundColor: Colors.yellow,
-                  child: Text('T', style: TextStyle(color: Colors.black87))),
+                  child: Text('A', style: TextStyle(color: Colors.black87))),
               decoration: new BoxDecoration(
                 gradient: LinearGradient(
                     begin: Alignment.centerLeft,
@@ -65,29 +66,17 @@ class _HomePageState extends State<HomePage> {
             ),
             new ListTile(
                 leading: Icon(Icons.home),
-                title: new Text("Home"),
+                title: new Text("Početna"),
                 onTap: () {
                   Navigator.pop(context);
                 }),
             new ListTile(
-                leading: Icon(Icons.person),
-                title: new Text("Friends"),
-                onTap: () {
-                  Navigator.pop(context);
-                }),
-            new ListTile(
-                leading: Icon(Icons.share),
-                title: new Text("Share"),
+                leading: Icon(Icons.archive),
+                title: new Text("Zahtjevi"),
                 onTap: () {
                   Navigator.pop(context);
                 }),
             new Divider(),
-            new ListTile(
-                leading: Icon(Icons.settings),
-                title: new Text("Settings"),
-                onTap: () {
-                  Navigator.pop(context);
-                }),
             new ListTile(
                 leading: Icon(Icons.power_settings_new),
                 title: new Text("Logout"),
@@ -220,9 +209,11 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
+// ignore: must_be_immutable
 class _NewRequestPage extends StatefulWidget {
   int partFromHomeId;
   String userLogged;
+  // ignore: unused_element
   _NewRequestPage({Key key, this.partFromHomeId, Key key2, this.userLogged})
       : super(key: key);
 
@@ -235,7 +226,8 @@ class __NewRequestPageState extends State<_NewRequestPage> {
   List<Tool> _tools = [];
   int requestId;
   List<int> selectedTools = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
-
+  DateTime dateToday =
+      DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day);
   getOperations() async {
     var operationsResult = await get(
         "https://6d8cc013dbe2.ngrok.io/api/PartOperations?id=" +
@@ -278,16 +270,14 @@ class __NewRequestPageState extends State<_NewRequestPage> {
         VersionRequest vr = new VersionRequest(
             machineId: 1,
             requestId: requestId,
-            operationId: e.id,
+            operationId: e.operationId,
             partId: widget.partFromHomeId,
-            toolId: _tools[selectedTools[i]].id);
+            toolId: _tools[selectedTools[i] - 1].id);
         _listVersionRequests.add(vr);
         i++;
       });
 
       _listVersionRequests.forEach((element) {
-        print("element");
-        print(json.encode(element));
         post("https://6d8cc013dbe2.ngrok.io/api/VersionRequest",
             headers: {
               // 'authorization': 'Basic ' + basicAuth,
@@ -303,15 +293,15 @@ class __NewRequestPageState extends State<_NewRequestPage> {
     getOperations();
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-            child: Text(
-          "Novi zahtjev" + widget.partFromHomeId.toString(),
-        )),
+        title: Text(
+          "Novi zahtjev",
+        ),
         elevation: 0,
         backgroundColor: Theme.of(context).primaryColor,
       ),
       body: Column(
         children: [
+          Text("Zahtjev" + dateToday.toString()),
           FutureBuilder(
               future:
                   getOperations(), //async function that returns a Future<Map<String, dynamic>>

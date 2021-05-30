@@ -6,6 +6,7 @@ import 'package:entools/model/login_model.dart';
 class APIService {
   String url = "https://6d8cc013dbe2.ngrok.io";
   String loggedUser;
+  // ignore: non_constant_identifier_names
   Future<bool> Login(String requestUsername, String requestPassword) async {
     // String basicAuth =
     //     'Basic ' + base64Encode(utf8.encode('$usernameInput:$passwordInput'));
