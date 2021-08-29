@@ -1,3 +1,4 @@
+import 'package:entools/pages/requests_page.dart';
 import 'package:entools/service/shared_service.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ void main() async {
   bool _result = await SharedService.isLoggedIn();
 
   if (_result) _defaultHome = new HomePage();
-  
+
   runApp(MyApp());
 }
 
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder>{
         '/home': (BuildContext context) => new HomePage(),
         '/login': (BuildContext context) => new LoginPage(),
+        '/requests': (BuildContext context) => new RequestsPage()
       },
     );
   }

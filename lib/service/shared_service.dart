@@ -15,7 +15,7 @@ class SharedService {
   }
 
   static Future<void> setLoginDetails(String username) async {
-    final prefs = await SharedPreferences.getInstance();
+  final prefs = await SharedPreferences.getInstance();
     prefs.setString("login_details", username != null ? username : null);
   }
 

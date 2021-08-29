@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:entools/model/login_model.dart';
 
 class APIService {
-  String url = "https://6d8cc013dbe2.ngrok.io";
+  String url = "https://192.168.0.39:44333";
   String loggedUser;
   // ignore: non_constant_identifier_names
   Future<bool> Login(String requestUsername, String requestPassword) async {
